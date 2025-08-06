@@ -1,0 +1,282 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #fafafa;
+  color: #262626;
+}
+
+.container {
+  width: 90%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Header */
+.header {
+  background: white;
+  border-bottom: 1px solid #dbdbdb;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 1.8rem;
+  font-style: italic;
+  color: black;
+  user-select: none;
+}
+
+.search-input {
+  flex-grow: 1;
+  margin: 0 20px;
+  padding: 8px 15px;
+  border: 1px solid #dbdbdb;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.nav-icons {
+  display: flex;
+  gap: 12px;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.icon-btn:hover {
+  color: #262626;
+}
+
+.profile-btn {
+  font-size: 1.8rem;
+}
+
+/* Main layout */
+.main-container {
+  display: flex;
+  gap: 20px;
+  padding: 20px 0;
+}
+
+/* Stories */
+.stories {
+  display: flex;
+  gap: 15px;
+  padding: 10px 0;
+  border: 1px solid #dbdbdb;
+  border-radius: 10px;
+  background: white;
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+
+.story {
+  text-align: center;
+  font-size: 0.75rem;
+  cursor: pointer;
+  width: 70px;
+}
+
+.story img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 2px solid #c13584;
+  object-fit: cover;
+  margin-bottom: 5px;
+  transition: transform 0.3s ease;
+}
+
+.story:hover img {
+  transform: scale(1.1);
+}
+
+/* Feed posts */
+.feed-posts {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+/* Post */
+.post {
+  background: white;
+  border: 1px solid #dbdbdb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+}
+
+.post-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.post-header div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.post-header strong {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.post-header span {
+  font-size: 0.8rem;
+  color: #8e8e8e;
+}
+
+.post-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-height: 400px;
+  object-fit: cover;
+}
+
+.post-actions {
+  padding: 10px 15px;
+  display: flex;
+  gap: 15px;
+  font-size: 1.4rem;
+}
+
+.btn-like {
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.btn-like.liked {
+  color: #ed4956;
+}
+
+.post-description {
+  padding: 0 15px 10px 15px;
+  font-size: 0.9rem;
+}
+
+.post-comments {
+  padding: 0 15px 15px 15px;
+  font-size: 0.85rem;
+  color: #8e8e8e;
+}
+
+.post-comments p {
+  margin-bottom: 5px;
+}
+
+/* Sidebar */
+.sidebar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  position: sticky;
+  top: 80px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.user-avatar {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-info strong {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.switch-btn {
+  font-size: 0.9rem;
+  color: #0095f6;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.suggestions h3 {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.suggestions ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.suggestions li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.suggestions img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.suggestions button {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: #0095f6;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 5px 10px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.suggestions button:hover {
+  background-color: #e6f0ff;
+}
+
+.footer-info {
+  font-size: 0.75rem;
+  color: #c7c7c7;
+  line-height: 1.4;
+  text-align: center;
+}
