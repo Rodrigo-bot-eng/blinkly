@@ -5,143 +5,702 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Blinkly - Feed</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="feed.css" />
-  <link rel="stylesheet" href="boas vindas.css">
+  <link rel="stylesheet" href="feed.css">
+  <style>
+    /* Reset básico */
+    * {
+      box-sizing: border-box;
+    }
 
-  
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding-bottom: 70px; /* espaço para o menu fixo inferior */
+    }
+
+    a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    /* Busca */
+    .search-input {
+      background-color: #222;
+      color: #fff;
+      border: 1px solid #444;
+      border-radius: 4px;
+      padding: 6px 12px;
+      width: 100%;
+      max-width: 300px;
+      font-size: 16px;
+      margin: 10px auto;
+      display: block;
+    }
+    .search-input::placeholder {
+      color: #888;
+    }
+
+    /* Linha separadora */
+    .bottom-nav-separator {
+      border-top: 1px solid #444;
+      margin: 0;
+    }
+
+    /* Menu inferior fixo */
+    .nav-icons-bottom {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #111;
+      border-top: 1px solid #444;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 12px 0;
+      z-index: 1000;
+      box-shadow: 0 -2px 8px rgba(255 255 255 / 0.1);
+    }
+
+    .nav-icons-bottom .icon-btn {
+      background: none;
+      border: none;
+      font-size: 26px;
+      cursor: pointer;
+      color: #fff;
+      transition: color 0.3s;
+    }
+    .nav-icons-bottom .icon-btn:hover {
+      color: #1e90ff;
+    }
+
+    /* Posts e feed */
+    .main-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 16px 20px;
+    }
+
+    /* Stories */
+    .stories {
+      display: flex;
+      gap: 12px;
+      padding: 12px 0;
+      overflow-x: auto;
+      background-color: #121212;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+    .stories .story {
+      text-align: center;
+      min-width: 72px;
+      cursor: pointer;
+    }
+    .stories .story img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid #444;
+      display: block;
+      margin: 0 auto 6px;
+    }
+    .stories .story span {
+      font-size: 12px;
+      color: #ddd;
+      white-space: nowrap;
+    }
+
+    /* Posts */
+    .feed-posts .post {
+      background-color: #121212;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      padding: 12px;
+      color: #eee;
+    }
+    .post-header {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #333;
+      padding-bottom: 8px;
+      margin-bottom: 8px;
+    }
+    .post-header img.post-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid #444;
+      margin-right: 12px;
+    }
+    .post-header strong {
+      font-size: 16px;
+    }
+    .post-header span {
+      font-size: 12px;
+      color: #aaa;
+      margin-left: 8px;
+    }
+    .post-image {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+    .post-actions button {
+      background: none;
+      border: none;
+      color: #eee;
+      font-size: 22px;
+      cursor: pointer;
+      margin-right: 12px;
+      transition: color 0.3s;
+    }
+    .post-actions button:hover {
+      color: #1e90ff;
+    }
+    .post-description strong {
+      margin-right: 4px;
+    }
+    .post-comments p {
+      font-size: 14px;
+      margin: 4px 0;
+    }
+    .post-comments strong {
+      color: #ddd;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background-color: #121212;
+      color: #eee;
+      padding: 12px;
+      border-radius: 8px;
+      max-width: 300px;
+      margin-left: 16px;
+      flex-shrink: 0;
+    }
+    .user-info {
+      display: flex;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .user-info img.user-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 2px solid #444;
+      margin-right: 12px;
+    }
+    .user-info strong {
+      font-size: 18px;
+    }
+    .switch-btn {
+      color: #1e90ff;
+      margin-left: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .suggestions h3 {
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+    .suggestions ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .suggestions li {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .suggestions img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      border: 2px solid #444;
+      margin-right: 10px;
+    }
+    .suggestions span {
+      flex-grow: 1;
+      color: #eee;
+      font-size: 14px;
+    }
+    .suggestions button {
+      background-color: #222;
+      border: none;
+      color: #eee;
+      border-radius: 4px;
+      padding: 5px 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .suggestions button:hover {
+      background-color: #444;
+    }
+
+    /* Layout principal flex para feed + sidebar */
+    main.main-container {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 10px;
+    }
+
+    /* Mensagens topo */
+    #messages-top {
+      background-color: #111;
+      color: #eee;
+      padding: 12px;
+      border-radius: 8px;
+      display: none; /* inicia escondido */
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 600px;
+      z-index: 1100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.7);
+    }
+    .previous-messages {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .message-preview {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+    .message-preview img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid #444;
+    }
+    .message-preview strong {
+      display: block;
+      font-size: 14px;
+      color: #eee;
+    }
+    .message-preview p {
+      font-size: 13px;
+      color: #bbb;
+      margin: 0;
+    }
+
+    /* --- Perfil (nova área) --- */
+    #profile-page {
+      display: none;
+      padding: 20px;
+      background-color: transparent;
+      color: #fff;
+    }
+    #profile-page .profile-top {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    #profile-page img#profile-page-pic {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 3px solid #444;
+      object-fit: cover;
+      cursor: pointer;
+    }
+    #profile-page label {
+      font-size: 14px;
+      color: #bbb;
+      display: block;
+      margin-bottom: 4px;
+    }
+    #profile-page input[type="text"],
+    #profile-page textarea {
+      background-color: #121212;
+      color: #fff;
+      border: 1px solid #444;
+      border-radius: 6px;
+      padding: 8px;
+      font-size: 14px;
+      width: 100%;
+    }
+    #profile-page textarea { resize: none; height: 100px; }
+    #profile-page .btn {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      border: none;
+    }
+    #profile-page .btn-save { background: #1e90ff; color: #fff; }
+    #profile-page .btn-back { background: #444; color: #fff; margin-left: 8px; }
+
+    /* Feed header profile preview */
+    .feed-profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+    }
+    .feed-profile img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid #444;
+      object-fit: cover;
+    }
+    .feed-profile .info { color: #ddd; font-size: 14px; }
+
+    /* Mobile ajustes */
+    @media (max-width: 600px) {
+      #profile-page { padding: 12px; }
+      #profile-page img#profile-page-pic { width: 100px; height: 100px; }
+      main.main-container { padding: 0 8px; }
+    }
+  </style>
 </head>
-<body> 
+<body>
 
-  <!-- Scripts JavaScript -->
-  <script src="boas vindas.js"></script>
-  <script src="feed.js"></script>
-  
+  <!-- Conteúdo principal -->
+  <main class="main-container">
+    <!-- ESQUERDA: feed (left-panel) -->
+    <section id="left-panel" style="flex:1; min-width: 320px;">
+      <!-- Busca -->
+      <input type="search" placeholder="Pesquisar" class="search-input" aria-label="Pesquisar" />
 
-  <!-- Splash com letra B animada -->
-<div id="welcome-screen">
-  <img src="logo.jpg" alt="Logo Blinkly" class="welcome-image" />
-</div>
-
-
-
-<!-- Resto do meu conteúdo aqui -->
-
-
-
-
-  <header class="header">
-    <div class="container header-content">
-      <div class="logo">𝘽𝙡𝙞𝙣𝙠𝙡𝙮</div>
-      <input type="search" placeholder="Pesquisar" class="search-input" />
-      <nav class="nav-icons">
-        <button title="Home" class="icon-btn">🏠</button>
-        <button title="Mensagens" class="icon-btn">✉️</button>
-        <button title="Novo Post" class="icon-btn">➕</button>
-        <button title="Explorar" class="icon-btn">🔍</button>
-        <button title="Notificações" class="icon-btn">❤️</button>
-        <button title="Perfil" class="icon-btn profile-btn">👤</button>
-      </nav>
-    </div>
-  </header>
-
-  <main class="main-container container">
-    <section class="stories">
-      <div class="story">
-        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Story 1" />
-        <span>ana.silva</span>
+      <!-- Pequeno bloco com os dados do perfil (no topo do feed) -->
+      <div class="feed-profile" id="feed-profile">
+        <img id="feed-profile-pic" src="https://randomuser.me/api/portraits/men/99.jpg" alt="avatar">
+        <div class="info">
+          <strong id="feed-profile-name">seu_usuario</strong><br>
+          <span id="feed-profile-bio" style="font-size:12px; color:#aaa;">Escreva algo sobre você...</span>
+        </div>
       </div>
-      <div class="story">
-        <img src="https://randomuser.me/api/portraits/men/35.jpg" alt="Story 2" />
-        <span>joao123</span>
-      </div>
-      <div class="story">
-        <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Story 3" />
-        <span>mariana</span>
-      </div>
-      <div class="story">
-        <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Story 4" />
-        <span>lucas</span>
-      </div>
-      <div class="story">
-        <img src="https://randomuser.me/api/portraits/women/79.jpg" alt="Story 5" />
-        <span>carol</span>
-      </div>
+
+      <!-- Histórias -->
+      <section class="stories">
+        <div class="story"><img src="https://randomuser.me/api/portraits/women/68.jpg" alt="ana.silva" /><span>ana.silva</span></div>
+        <div class="story"><img src="https://randomuser.me/api/portraits/men/35.jpg" alt="joao123" /><span>joao123</span></div>
+        <div class="story"><img src="https://randomuser.me/api/portraits/women/43.jpg" alt="mariana" /><span>mariana</span></div>
+        <div class="story"><img src="https://randomuser.me/api/portraits/men/22.jpg" alt="lucas" /><span>lucas</span></div>
+        <div class="story"><img src="https://randomuser.me/api/portraits/women/79.jpg" alt="carol" /><span>carol</span></div>
+      </section>
+
+      <!-- Posts -->
+      <section class="feed-posts">
+        <article class="post">
+          <header class="post-header">
+            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="ana.silva" class="post-avatar" />
+            <div><strong>ana.silva</strong><span> – 2 horas atrás</span></div>
+          </header>
+          <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Foto postada" class="post-image" />
+          <div class="post-actions">
+            <button class="btn-like" aria-label="Curtir">❤️</button>
+            <button class="btn-comment" aria-label="Comentar">💬</button>
+            <button class="btn-share" aria-label="Compartilhar">🔗</button>
+          </div>
+          <p class="post-description"><strong>ana.silva</strong> Curtindo o pôr do sol! 🌅</p>
+          <div class="post-comments">
+            <p><strong>joao123</strong> Que foto linda!</p>
+            <p><strong>mariana</strong> Amo essa vibe!</p>
+          </div>
+        </article>
+
+        <article class="post">
+          <header class="post-header">
+            <img src="https://randomuser.me/api/portraits/men/35.jpg" alt="joao123" class="post-avatar" />
+            <div><strong>joao123</strong><span> – 1 dia atrás</span></div>
+          </header>
+          <img src="https://images.unsplash.com/photo-1510414696678-2415ad8474aa?auto=format&fit=crop&w=600&q=80" alt="Foto postada" class="post-image" />
+          <div class="post-actions">
+            <button class="btn-like" aria-label="Curtir">❤️</button>
+            <button class="btn-comment" aria-label="Comentar">💬</button>
+            <button class="btn-share" aria-label="Compartilhar">🔗</button>
+          </div>
+          <p class="post-description"><strong>joao123</strong> Aventuras na montanha! ⛰️</p>
+          <div class="post-comments">
+            <p><strong>ana.silva</strong> Quero ir aí também!</p>
+          </div>
+        </article>
+      </section>
     </section>
 
-    <section class="feed-posts">
-      <!-- Post 1 -->
-      <article class="post">
-        <header class="post-header">
-          <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="ana.silva" class="post-avatar" />
-          <div>
-            <strong>ana.silva</strong>
-            <span>2 horas atrás</span>
-          </div>
-        </header>
-        <img
-          src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80"
-          alt="Foto postada"
-          class="post-image"
-        />
-        <div class="post-actions">
-          <button class="btn-like">❤️</button>
-          <button>💬</button>
-          <button>🔗</button>
-        </div>
-        <p class="post-description"><strong>ana.silva</strong> Curtindo o pôr do sol! 🌅</p>
-        <div class="post-comments">
-          <p><strong>joao123</strong> Que foto linda!</p>
-          <p><strong>mariana</strong> Amo essa vibe!</p>
-        </div>
-      </article>
+    <!-- NOVA ÁREA: profile-page (mesmo espaço da coluna esquerda) -->
+    <section id="profile-page" style="flex:1; min-width:320px;">
+      <div class="profile-top">
+        <img id="profile-page-pic" src="https://randomuser.me/api/portraits/men/99.jpg" alt="Foto de Perfil" />
+        <br><br>
+        <input type="file" id="profile-pic-input" accept="image/*" style="display:none;">
+        <button id="change-pic-btn" class="btn btn-change" style="background:#222; color:#fff; border:none; padding:6px 12px; border-radius:6px; cursor:pointer;">Alterar Foto</button>
+      </div>
 
-      <!-- Post 2 -->
-      <article class="post">
-        <header class="post-header">
-          <img src="https://randomuser.me/api/portraits/men/35.jpg" alt="joao123" class="post-avatar" />
-          <div>
-            <strong>joao123</strong>
-            <span>1 dia atrás</span>
-          </div>
-        </header>
-        <img
-          src="https://images.unsplash.com/photo-1510414696678-2415ad8474aa?auto=format&fit=crop&w=600&q=80"
-          alt="Foto postada"
-          class="post-image"
-        />
-        <div class="post-actions">
-          <button class="btn-like">❤️</button>
-          <button>💬</button>
-          <button>🔗</button>
-        </div>
-        <p class="post-description"><strong>joao123</strong> Aventuras na montanha! ⛰️</p>
-        <div class="post-comments">
-          <p><strong>ana.silva</strong> Quero ir aí também!</p>
-        </div>
-      </article>
+      <label for="profile-name-input">Nome:</label>
+      <input type="text" id="profile-name-input" value="seu_usuario" style="width:100%; padding:8px; background:#222; border:1px solid #444; color:#fff; border-radius:4px;">
+
+      <br><br>
+
+      <label for="profile-bio-input">Bio:</label>
+      <textarea id="profile-bio-input" rows="4" style="width:100%; padding:8px; background:#222; border:1px solid #444; color:#fff; border-radius:4px;">Escreva algo sobre você...</textarea>
+
+      <br><br>
+
+      <button id="save-profile-btn" class="btn btn-save">Salvar Alterações</button>
+      <button id="back-to-feed-btn" class="btn btn-back">Voltar ao Feed</button>
     </section>
 
+    <!-- Barra lateral -->
     <aside class="sidebar">
       <section class="user-info">
-        <img src="https://randomuser.me/api/portraits/men/99.jpg" alt="Usuário" class="user-avatar" />
+        <img id="sidebar-avatar" src="https://randomuser.me/api/portraits/men/99.jpg" alt="Usuário" class="user-avatar" />
         <div>
-          <strong>seu_usuario</strong>
-          <a href="#" class="switch-btn">Trocar</a>
+          <strong id="sidebar-username">seu_usuario</strong>
+          <a href="#" class="switch-btn" id="switch-btn">Trocar</a>
         </div>
       </section>
 
       <section class="suggestions">
         <h3>Sugestões para você</h3>
         <ul>
-          <li>
-            <img src="https://randomuser.me/api/portraits/women/56.jpg" alt="usuario1" />
-            <span>maria_s</span>
-            <button>Seguir</button>
-          </li>
-          <li>
-            <img src="https://randomuser.me/api/portraits/men/77.jpg" alt="usuario2" />
-            <span>carlos92</span>
-            <button>Seguir</button>
-          </li>
-          <li>
-            <img src="https://randomus
+          <li><img src="https://randomuser.me/api/portraits/women/56.jpg" alt="usuario1" /><span>maria_s</span><button class="btn-follow">Seguir</button></li>
+          <li><img src="https://randomuser.me/api/portraits/men/77.jpg" alt="usuario2" /><span>carlos92</span><button class="btn-follow">Seguir</button></li>
+          <li><img src="https://randomuser.me/api/portraits/men/88.jpg" alt="usuario3" /><span>felipe_t</span><button class="btn-follow">Seguir</button></li>
+        </ul>
+      </section>
+    </aside>
+  </main>
+
+  <!-- Mensagens topo -->
+  <section id="messages-top" aria-label="Mensagens recentes">
+    <h2>Mensagens</h2>
+    <div class="previous-messages">
+      <div class="message-preview">
+        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="ana.silva" />
+        <div>
+          <strong>ana.silva</strong>
+          <p>Oi! Tudo bem?</p>
+        </div>
+      </div>
+      <div class="message-preview">
+        <img src="https://randomuser.me/api/portraits/men/35.jpg" alt="joao123" />
+        <div>
+          <strong>joao123</strong>
+          <p>Bora sair hoje?</p>
+        </div>
+      </div>
+      <div class="message-preview">
+        <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="mariana" />
+        <div>
+          <strong>mariana</strong>
+          <p>Você viu a nota?</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="bottom-nav-separator" />
+
+  <!-- Menu inferior fixo -->
+  <nav class="nav-icons-bottom" role="navigation" aria-label="Menu principal">
+    <button title="Home" class="icon-btn" id="btn-home">🏠</button>
+    <button title="Mensagens" class="icon-btn" id="btn-messages">✉️</button>
+    <button title="Novo Post" class="icon-btn" id="btn-new-post">➕</button>
+    <button title="Explorar" class="icon-btn" id="btn-explore">🔍</button>
+    <button title="Notificações" class="icon-btn" id="btn-notifications">❤️</button>
+    <button title="Perfil" class="icon-btn profile-btn" id="btn-profile">👤</button>
+  </nav>
+
+  <script>
+    /* ---------- TOAST DE BOAS-VINDAS (opcional) ---------- */
+    function showWelcomeToast(username) {
+      const toast = document.createElement('div');
+      toast.textContent = `Bem-vindo ao Blinkly, ${username}! ✨`;
+      toast.style.position = 'fixed';
+      toast.style.top = '20px';
+      toast.style.right = '20px';
+      toast.style.background = 'rgba(0,0,0,0.85)';
+      toast.style.color = '#fff';
+      toast.style.padding = '12px 20px';
+      toast.style.borderRadius = '24px';
+      toast.style.fontFamily = "'Poppins', sans-serif";
+      toast.style.fontWeight = '600';
+      toast.style.fontSize = '0.95rem';
+      toast.style.boxShadow = '0 4px 12px rgba(0,0,0,0.4)';
+      toast.style.opacity = '0';
+      toast.style.transition = 'opacity .4s, transform .4s';
+      toast.style.transform = 'translateY(-10px)';
+      toast.style.zIndex = '9999';
+
+      document.body.appendChild(toast);
+      requestAnimationFrame(() => {
+        toast.style.opacity = '1';
+        toast.style.transform = 'translateY(0)';
+      });
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(-10px)';
+        toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+      }, 3000);
+    }
+
+    /* ---------- ELEMENTOS ---------- */
+    const leftPanel = document.getElementById('left-panel');
+    const profilePage = document.getElementById('profile-page');
+    const feedProfilePic = document.getElementById('feed-profile-pic');
+    const feedProfileName = document.getElementById('feed-profile-name');
+    const feedProfileBio = document.getElementById('feed-profile-bio');
+    const sidebarAvatar = document.getElementById('sidebar-avatar');
+    const sidebarUsername = document.getElementById('sidebar-username');
+
+    const profilePagePic = document.getElementById('profile-page-pic');
+    const profilePicInput = document.getElementById('profile-pic-input');
+    const changePicBtn = document.getElementById('change-pic-btn');
+    const profileNameInput = document.getElementById('profile-name-input');
+    const profileBioInput = document.getElementById('profile-bio-input');
+    const saveProfileBtn = document.getElementById('save-profile-btn');
+    const backToFeedBtn = document.getElementById('back-to-feed-btn');
+
+    /* ---------- CARREGAR DADOS SALVOS ---------- */
+    function loadProfileFromStorage() {
+      const savedName = localStorage.getItem('profileName') || 'seu_usuario';
+      const savedBio = localStorage.getItem('profileBio') || 'Escreva algo sobre você...';
+      const savedPic = localStorage.getItem('profilePic') || 'https://randomuser.me/api/portraits/men/99.jpg';
+
+      // Perfil (inputs)
+      profileNameInput.value = savedName;
+      profileBioInput.value = savedBio;
+      profilePagePic.src = savedPic;
+
+      // Feed (preview)
+      feedProfileName.textContent = savedName;
+      feedProfileBio.textContent = savedBio;
+      feedProfilePic.src = savedPic;
+
+      // Sidebar
+      sidebarUsername.textContent = savedName;
+      sidebarAvatar.src = savedPic;
+
+      // Welcome toast
+      showWelcomeToast(savedName);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadProfileFromStorage();
+    });
+
+    /* ---------- MENSAGENS TOPO ---------- */
+    function toggleMessages() {
+      const panel = document.getElementById('messages-top');
+      panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+    }
+
+    /* ---------- MENU INFERIOR - AÇÕES SIMPLES ---------- */
+    document.getElementById('btn-home').addEventListener('click', () => { alert('Você clicou em Home!'); });
+    document.getElementById('btn-messages').addEventListener('click', () => { toggleMessages(); });
+    document.getElementById('btn-new-post').addEventListener('click', () => { alert('Abrir criação de novo post!'); });
+    document.getElementById('btn-explore').addEventListener('click', () => { alert('Abrir explorar!'); });
+    document.getElementById('btn-notifications').addEventListener('click', () => { alert('Abrir notificações!'); });
+
+    /* ---------- ABRIR PERFIL (mantém menu) ---------- */
+    document.getElementById('btn-profile').addEventListener('click', () => {
+      leftPanel.style.display = 'none';          // esconde feed
+      profilePage.style.display = 'block';       // mostra perfil
+      document.getElementById('messages-top').style.display = 'none'; // fecha mensagens se aberto
+      // scroll to top so profile is visible on small screens
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    /* ---------- VOLTAR AO FEED ---------- */
+    backToFeedBtn.addEventListener('click', () => {
+      profilePage.style.display = 'none';
+      leftPanel.style.display = ''; // restaura (normalmente flex/section)
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    /* ---------- ALTERAR FOTO ---------- */
+    // clicar no botão ou na própria imagem abre o file picker
+    changePicBtn.addEventListener('click', () => profilePicInput.click());
+    profilePagePic.addEventListener('click', () => profilePicInput.click());
+
+    profilePicInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const dataUrl = e.target.result;
+        profilePagePic.src = dataUrl;
+        // atualizar preview imediato no feed/sidebar (mas ainda não salvar em storage)
+        feedProfilePic.src = dataUrl;
+        sidebarAvatar.src = dataUrl;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    /* ---------- SALVAR PERFIL (atualiza feed + sidebar + storage) ---------- */
+    saveProfileBtn.addEventListener('click', () => {
+      const newName = profileNameInput.value.trim() || 'seu_usuario';
+      const newBio = profileBioInput.value.trim() || 'Escreva algo sobre você...';
+      const newPic = profilePagePic.src || 'https://randomuser.me/api/portraits/men/99.jpg';
+
+      // Atualiza UI
+      feedProfileName.textContent = newName;
+      feedProfileBio.textContent = newBio;
+      feedProfilePic.src = newPic;
+
+      sidebarUsername.textContent = newName;
+      sidebarAvatar.src = newPic;
+
+      // Salva no localStorage
+      localStorage.setItem('profileName', newName);
+      localStorage.setItem('profileBio', newBio);
+      localStorage.setItem('profilePic', newPic);
+
+      // Feedback visual e volta pro feed
+      showWelcomeToast('Perfil atualizado');
+      profilePage.style.display = 'none';
+      leftPanel.style.display = '';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    /* ---------- CURTIDAS / COMENTÁRIOS / COMPARTILHAMENTO (simples) ---------- */
+    document.querySelectorAll('.btn-like').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.classList.toggle('liked');
+        // feedback simples (mudar texto ou cor poderia ser feito via CSS)
+      });
+    });
+    document.querySelectorAll('.btn-comment').forEach(btn => {
+      btn.addEventListener('click', () => alert('Abrir comentários!'));
+    });
+    document.querySelectorAll('.btn-share').forEach(btn => {
+      btn.addEventListener('click', () => alert('Compartilhar post!'));
+    });
+
+    /* ---------- SEGUIR SUGESTÕES ---------- */
+    document.querySelectorAll('.btn-follow').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        if (btn.textContent.trim() === 'Seguir') {
+          btn.textContent = 'Seguindo';
+          btn.style.backgroundColor = '#1e90ff';
+          btn.style.color = '#fff';
+        } else {
+          btn.textContent = 'Seguir';
+          btn.style.backgroundColor = '#222';
+          btn.style.color = '#eee';
+        }
+      });
+    });
+
+    /* ---------- BOTÃO TROCAR USUÁRIO ---------- */
+    document.getElementById('switch-btn').addEventListener('click', e => {
+      e.preventDefault();
+      alert('Funcionalidade de troca de usuário em desenvolvimento.');
+    });
+  </script>
+
+</body>
+</html>
